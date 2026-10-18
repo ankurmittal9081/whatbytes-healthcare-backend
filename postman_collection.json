@@ -1,0 +1,374 @@
+{
+	"info": {
+		"_postman_id": "whatbytes-healthcare-api-collection",
+		"name": "WhatBytes Healthcare Backend API",
+		"description": "Postman Collection for WhatBytes Full Stack Developer Internship Assignment - Healthcare Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ankur Mittal\",\n  \"email\": \"ankur@example.com\",\n  \"password\": \"SecurePass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "register", ""]
+						}
+					}
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.tokens && jsonData.tokens.access) {",
+									"    pm.environment.set(\"access_token\", jsonData.tokens.access);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"ankur@example.com\",\n  \"password\": \"SecurePass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "Add Patient",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ramesh Sharma\",\n  \"age\": 42,\n  \"gender\": \"Male\",\n  \"contact_number\": \"9876543210\",\n  \"address\": \"Mathura, Uttar Pradesh\",\n  \"medical_history\": \"Hypertension, Mild Asthma\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/patients/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "patients", ""]
+						}
+					}
+				},
+				{
+					"name": "Get All Patients (By Current User)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/patients/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "patients", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Specific Patient",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/patients/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "patients", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Patient Details",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"medical_history\": \"Hypertension (managed with medication), Mild Asthma\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/patients/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "patients", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Patient Record",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/patients/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "patients", "1", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Doctors",
+			"item": [
+				{
+					"name": "Add Doctor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Dr. Priya Verma\",\n  \"specialization\": \"Cardiologist\",\n  \"email\": \"dr.priya@hospital.com\",\n  \"phone_number\": \"9123456780\",\n  \"years_of_experience\": 10,\n  \"hospital_affiliation\": \"Metro Heart Institute\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/doctors/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "doctors", ""]
+						}
+					}
+				},
+				{
+					"name": "Get All Doctors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/doctors/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "doctors", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Specific Doctor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/doctors/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "doctors", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Doctor Details",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"years_of_experience\": 11\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/doctors/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "doctors", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Doctor Record",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/doctors/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "doctors", "1", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Patient-Doctor Mappings",
+			"item": [
+				{
+					"name": "Assign Doctor to Patient",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"patient\": 1,\n  \"doctor\": 1,\n  \"notes\": \"Follow-up visit next Tuesday\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/mappings/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "mappings", ""]
+						}
+					}
+				},
+				{
+					"name": "Get All Mappings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/mappings/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "mappings", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Doctors for Specific Patient",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/mappings/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "mappings", "1", ""]
+						}
+					}
+				},
+				{
+					"name": "Remove Doctor from Patient",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/mappings/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "mappings", "1", ""]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}
